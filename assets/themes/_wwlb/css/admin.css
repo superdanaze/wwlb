@@ -1,0 +1,13 @@
+/*  ACF
+=========================================== */
+
+.acf-field.c-left {
+   clear:left !important; 
+}
+.acf-field.c-right {
+    clear:right !important;
+}
+.acf-field.up-small {
+    -webkit-transform:translateY(-91px);
+    transform:translateY(-91px);
+}

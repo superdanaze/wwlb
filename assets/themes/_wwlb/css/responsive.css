@@ -1,0 +1,186 @@
+@media screen and ( min-width: 1px ) {
+    
+    /*  HERO SECTIONS
+    =========================================== */
+    
+    
+
+}
+
+
+
+@media screen and ( min-width: 480px ) {
+
+}
+
+
+
+@media screen and ( min-width: 640px ) {
+
+}
+
+
+
+@media screen and ( min-width: 768px ) {
+
+    
+
+
+}
+
+
+
+@media screen and ( min-width: 960px ) {
+
+    
+
+}
+
+
+
+@media screen and ( min-width: 1025px ) {
+
+    
+
+
+    /*  HEADER / NAVIGATION
+    =========================================== */
+    
+    header.site-header {
+        padding-top:15px;
+    }
+    
+}
+
+
+
+@media screen and ( min-width: 1200px ) {
+
+}
+
+
+
+
+
+
+
+
+@media screen and ( max-width: 479px ) {
+
+}
+
+
+
+@media screen and ( max-width: 639px ) {
+
+}
+
+
+
+@media screen and ( max-width: 767px ) {
+
+    /*  TYPOGRAPHY
+    =========================================== */
+
+    h1 {
+        font-size: 39px;
+    }
+    .hero-title-wrap h1 {
+        font-size: 43.5px;
+        letter-spacing: 5.5px;
+    }
+    h2 {
+        font-size: 34.5px;
+    }
+    h3 {
+        font-size: 30.5px;
+    }
+    h4 {
+        font-size: 27px;
+    }
+    h5 {
+        font-size: 24px;
+    }
+    h6 {
+        font-size: 21.5px;
+    }
+
+
+    
+    
+}
+
+
+
+@media screen and ( max-width: 959px ) {
+
+}
+
+
+
+@media screen and ( max-width: 1024px ) {
+
+    /*  HEADER / NAVIGATION
+    =========================================== */
+
+    /*  header nav  */
+
+    header .wrap {
+        display:-webkit-flex;
+        display:flex;
+        -webkit-align-items:center;
+        align-items:center;
+        position: relative;
+    }
+
+}
+
+
+
+@media screen and ( max-width: 1199px ) {
+
+}
+
+
+
+
+
+
+
+
+@media screen and ( orientation: portrait ) {
+
+    /*  HEADER / NAVIGATION
+    =========================================== */
+
+    /*  mobile nav  */
+    
+    .mobile-menu-master-wrap:before {
+        width:200vh;
+        height:200vh;
+        top:-50vh;
+        left:-50vh;
+    }
+}
+
+
+
+@media screen and ( orientation: landscape ) {
+
+    /*  HEADER / NAVIGATION
+    =========================================== */
+
+    /*  mobile nav  */
+
+    .mobile-menu-master-wrap:before {
+        width:200vw;
+        height:200vw;
+        top:-50vw;
+        left:-50vw;
+    }
+
+}
+
+
+/*  MOBILE RESPONSIVE CLASSES  */
+@media screen and (min-width:480px){.india {display:none !important;}}@media screen and (min-width:640px){.juliet, .quebec {display:none !important;}}@media screen and (min-width:768px){.kilo, .romeo, .uniform {display:none !important;}}@media screen and (min-width:960px){.lima, .sierra, .victor, .xray {display:none !important;}}@media screen and (min-width:1025px){.mike, .tango, .whiskey, .yankee, .zulu {display:none !important;}}@media screen and (min-width:1100px){.november {display:none !important;}}@media screen and (min-width:1200px){.oscar {display:none !important;}}@media screen and (min-width:1300px){.papa {display:none !important;}}@media screen and (max-width:479px){.alpha, .quebec, .romeo, .sierra, .tango {display:none !important;}}@media screen and (max-width:639px){.beta, .uniform, .victor, .whiskey {display:none !important;}}@media screen and (max-width:767px){.charlie, .xray, .yankee {display:none !important;}}@media screen and (max-width:959px){.delta, .zulu {display:none !important;}}@media screen and (max-width:1024px){.echo {display:none !important;}}@media screen and (max-width:1099px){.foxtrot {display:none !important;}}@media screen and (max-width:1199px){.golf {display:none !important;}}@media screen and (max-width:1299px){.hotel {display:none !important;}}
