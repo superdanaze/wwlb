@@ -665,8 +665,6 @@ $ela_header_nav = new ELA_Header_nav;
 #	ELEMENTS
 #-----------------------------------------------------------------#
 
-//	this is just a sample comment
-
 class ELA_Elements {
 	
 	public function __construct() {
