@@ -483,7 +483,7 @@ class ELA_Mods {
 		$classes[] = $detect->isMobile() ? "ismobile" : "nomobile";
 
 		//	nav color
-		$classes[] = get_field('header_color_scheme');
+		// $classes[] = get_field('header_color_scheme');
 		
 
 		return $classes;
