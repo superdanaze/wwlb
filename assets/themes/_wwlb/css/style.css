@@ -3,8 +3,8 @@
 
 :root {
     --text:#43454a;           /*  text default  */
-    --text-light:#fcfef0;     /*  text light default  */
-    --text-dark:#212427;      /*  text dark default  */
+    --light:#fafafa;     /*  text light default  */
+    --dark:#222;      /*  text dark default  */
 }
 
 /*  cursor  */
@@ -21,11 +21,25 @@
 =========================================== */
 
 html, body {
-    /* font-family: 'Nunito', sans-serif; */
     font-size: 17px;
     font-weight: 400;
     line-height: 1.35;
     letter-spacing: -0.25px;
+}
+
+html, body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+p a,
+span,
+ul li,
+ul li a {
+    font-family: 'Special Elite', serif !important;
 }
 
 h1,
@@ -34,7 +48,6 @@ h3,
 h4,
 h5,
 h6 {
-    /* font-family: 'Nunito', sans-serif; */
     line-height: 1.35;
 }
 h1 {
@@ -86,15 +99,58 @@ footer {
 }
 
 
+/*  LANGUAGE CHANGE
+=========================================== */
+
+.lang-en .esp,
+.lang-es .eng {
+    display:none;
+}
+
+
+/*  TEMPLATE :: CUSTOM PAGE
+=========================================== */
+
+.wwlb-page .site-inner {
+    max-width: 100%;
+    padding:0;
+}
+.wwlb-page header.site-header {
+    background-color: transparent;
+    width:100%;
+    top:0;
+    left:0;
+    box-shadow: none;
+    position: absolute;
+}
+
+
 
 /*  BUTTONS
 =========================================== */
 
-.btn-main {
+.wwlb_btn a {
+    font-size: 19px;
     text-align: center;
+    letter-spacing: 5px;
     line-height: 1;
     display: inline-block;
+    border-radius: 2px;
+    padding:18px 50px;
     position: relative;
+}
+.wwlb_btn.light a {
+    border:2px solid var(--light) !important;
+}
+.wwlb_btn.solid.light a,
+.wwlb_btn.outline.light a:hover {
+    background-color:var(--light);
+    color:var(--dark);
+}
+.wwlb_btn.outline.light a,
+.wwlb_btn.solid.light a:hover {
+    background-color:transparent;
+    color:var(--light);
 }
 
 /* size */
@@ -117,7 +173,7 @@ footer {
 
 .nav-light .site-title,
 .nav-light .site-title a {
-    color:var(--text-light);
+    color:var(--light);
 }
 header.site-header {
     z-index: 10;
@@ -128,23 +184,31 @@ header.site-header {
     box-shadow: none;
     position: absolute;
 }
+.no-logo .title-area {
+    visibility: hidden;
+    opacity: 0;
+}
+.title-area span.logo img {
+    width:100%;
+    max-width: 150px;
+}
 
 /*  header navigation  */
 
-ul#menu-navigation li {
+ul#menu-main li {
     padding:12px 15px;
 }
-ul#menu-navigation li a {
+ul#menu-main li a {
     padding:0;
     position: relative;
 }
-body.nav-dark ul#menu-navigation li a,
-body.nav-dark ul#menu-navigation li a:hover {
+body.nav-dark ul#menu-main li a,
+body.nav-dark ul#menu-main li a:hover {
     color:var(--text);
 }
-body.nav-light ul#menu-navigation li a,
-body.nav-light ul#menu-navigation li a:hover {
-    color:var(--text-light);
+body.nav-light ul#menu-main li a,
+body.nav-light ul#menu-main li a:hover {
+    color:var(--light);
 }
 ul.menu > li a:before {
     width:100%;
@@ -165,12 +229,12 @@ ul.menu > li a:hover::before {
     -webkit-transform:scaleX(1);
     transform:scaleX(1);
 }
-body.nav-dark ul#menu-navigation > li a:before {
+body.nav-dark ul#menu-main > li a:before {
     background:var(--text);
 }
-body.nav-light ul#menu-navigation > li a:before,
+body.nav-light ul#menu-main > li a:before,
 .mobile-menu-master-wrap ul.menu > li a:before {
-    background:var(--text-light);
+    background:var(--light);
 }
 
 /*  mobile nav burger  */
@@ -200,7 +264,7 @@ body.nav-dark span.nav-dash {
     background:var(--text);
 }
 body.nav-light span.nav-dash {
-    background:var(--text-light);
+    background:var(--light);
 }
 span.nav-dash-1 {
     width:16px;
@@ -250,18 +314,28 @@ body.mobile-nav .mobile-menu-master-wrap:before {
     -webkit-transform:scale(1);
     transform:scale(1);
 }
-#rp-mobile-navigation {
+#ela-mobile-navigation {
     -webkit-flex-direction: column;
     flex-direction: column;
     -webkit-justify-content: space-evenly;
     justify-content: space-evenly;
 }
-#rp-mobile-navigation li {
+#ela-mobile-navigation li {
     opacity: 0;
 }
-#rp-mobile-navigation li a {
-    color:var(--text-light);
+#ela-mobile-navigation li a {
+    color:var(--light);
     font-size: 21px;
     font-weight: 200;
     letter-spacing: 6px;
+}
+
+
+/*  HERO AREAS
+=========================================== */
+
+/*  home  */
+
+.home-hero img {
+    max-width: 65% !important;
 }

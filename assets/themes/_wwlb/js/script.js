@@ -20,13 +20,13 @@ window.isMobile = {
 }
 
 !function() {
-	const text_light	= "#fcfef0";
-	const text_dark		= "#43454a";
+	const text_light	= "#fafafa";
+	const text_dark		= "#222";
 	
 	let header = {
 		trigger		: document.querySelector('.nav-trigger-wrap'),
 		navwrap		: document.querySelector('.mobile-menu-master-wrap'),
-		ul			: document.getElementById('rp-mobile-navigation'),
+		ul			: document.getElementById('ela-mobile-navigation'),
 		_click		: true,
 
 		animate_burger: function(dir) {

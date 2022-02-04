@@ -277,16 +277,16 @@ remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
  * Deregister Genesis Default JS
  */
 
- function rp_deregister_genesis_scripts() {
+ function ela_deregister_genesis_scripts() {
 	//	sueprfish nav
 	wp_deregister_script('superfish');
 	//	default responsive nav
-	wp_deregister_script('_rp-responsive-menu');
+	wp_deregister_script('_ela-responsive-menu');
 	//	wp embed
 	wp_deregister_script('wp-embed');
  }
 
- add_action( 'wp_enqueue_scripts', 'rp_deregister_genesis_scripts', 40 );
+ add_action( 'wp_enqueue_scripts', 'ela_deregister_genesis_scripts', 40 );
 
 
 
@@ -303,7 +303,7 @@ define('E_TEMPLATES','page-templates/template-parts/template');
 define('E_FLEX','page-templates/template-parts/flex');
 define('E_PARTS', '/template-parts/template');
 define('IMG_ROOT','/assets/stuff/');
-define('IMG_USER_PATH','assets/themes/_((CLIENT_DIR))/images/');
+define('IMG_USER_PATH','assets/themes/_wwlb/images/');
 
 //	mobile detect
 require_once 'lib/Mobile_Detect.php';
@@ -471,7 +471,7 @@ class ELA_Mods {
 	public function add_to_header() {
 		$output = '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\r\n";
 		$output .= '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\r\n";
-		// $output .= '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">' . "\r\n";
+		$output .= '<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500;600;700;800&family=Lusitana:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">' . "\r\n";
 
 		print $output;
 	}
@@ -482,9 +482,8 @@ class ELA_Mods {
 		global $detect;
 		$classes[] = $detect->isMobile() ? "ismobile" : "nomobile";
 
-		//	nav color
-		// $classes[] = get_field('header_color_scheme');
-		
+		//	default language selection
+		$classes[] = "lang-en";
 
 		return $classes;
 	}
@@ -534,6 +533,25 @@ function makeID($id) {
 	$data = str_replace( "&", "", $data);
 	return $data;
 }
+
+
+#-----------------------------------------------------------------#
+#	ACF
+#-----------------------------------------------------------------#
+
+// Enable Site Options section
+if ( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' 	=> __("Website Options"),
+		'menu_title'	=> __("Website Options"),
+		'menu_slug' 	=> 'global-settings',
+		'capability'	=> 'edit_posts',
+		'icon_url' 		=> 'dashicons-admin-site-alt3',
+		'redirect'		=> false,
+		'updated_message' => __("Website Options Updated", 'acf')
+	));
+}
+
 
 
 #-----------------------------------------------------------------#
@@ -630,13 +648,13 @@ class ELA_Header_Nav {
 
 
 	public function add_mobile_nav() {
-		$rp_mobile_nav_inner = genesis_markup([
+		$ela_mobile_nav_inner = genesis_markup([
 			'open'      => '<div %s>',
 			'atts'      => [ 'class' => "mobile-menu-inner-wrap full__container full__height topleft flex horiz vert abs" ],
-			'context'	=> 'rp-mobile-nav-inner',
+			'context'	=> 'ela-mobile-nav-inner',
 			'content'	=> wp_nav_menu(array(
 				'menu'			=> 'navigation',
-				'menu_id'		=> "rp-mobile-navigation",
+				'menu_id'		=> "ela-mobile-navigation",
 				'menu_class'	=> "menu full__height flex vert",
 				'container'		=> false,
 				'echo'			=> false
@@ -648,9 +666,9 @@ class ELA_Header_Nav {
 		genesis_markup(
 			[
 				'open'		=> '<div %s>',
-				'context'	=> 'rp-mobile-nav-container',
+				'context'	=> 'ela-mobile-nav-container',
 				'atts'		=> [ 'class' => "mobile-menu-master-wrap full__container full__height topleft mike fixed" ],
-				'content'	=> $rp_mobile_nav_inner,
+				'content'	=> $ela_mobile_nav_inner,
 				'close'		=> '</div>',
 			]
 		);
