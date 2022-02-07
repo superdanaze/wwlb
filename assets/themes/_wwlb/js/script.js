@@ -164,6 +164,83 @@ window.isMobile = {
 	};
 
 
+	let wwlbui = {
+		home_blocks			: document.querySelectorAll('.home-synopsis-block'),
+
+		init: function() {
+			//	home synopsis blocks
+			this.activate_blocks();
+		},
+
+		activate_blocks: function(init = false) {
+			const accents = new IntersectionObserver((entries) => {
+				entries.forEach( entry => {
+					entry.isIntersecting ? entry.target.classList.add('accent') : entry.target.classList.remove('accent');
+				});
+			},{
+				threshold : 0.25
+			});
+
+			const frame = new IntersectionObserver((entries) => {
+				entries.forEach( entry => {
+					entry.isIntersecting ? entry.target.classList.add('active') : entry.target.classList.remove('active');
+				});
+			},{
+				threshold : 0.5
+			});
+
+			const block_text = new IntersectionObserver((entries) => {
+				entries.forEach( entry => {
+					entry.target.classList.toggle('_active', entry.isIntersecting);
+
+					//	fade in spans
+					this.fade_spans( entry.target, entry.isIntersecting );
+				});
+			},{
+				threshold : 0.5
+			});
+
+			this.home_blocks.forEach( b => {
+				let text = b.querySelector(".synopsis");
+				
+				//	blocks
+				frame.observe( b );
+
+				//	accents
+				accents.observe( b );
+
+				//	text
+				block_text.observe( text );
+			});
+		},
+
+		fade_spans: function(container, state) {
+			let spans = container.querySelectorAll('span.__fade'),
+				delay = 1000,
+				duration = 750;
+			
+			let anim = anime.timeline({
+				targets : spans,
+				duration : duration,
+				easing : "easeInOutCubic",
+			});
+
+			if ( spans && state && !container.classList.contains('complete') ) {
+				container.classList.add('complete');
+				
+				anim.add({
+					opacity : 1,
+					delay : function(el, i ,l) {
+						return (delay * i) + delay;
+					}
+				});
+			} 
+		}
+	};
+
+
+	//	init wwlb ui items
+	wwlbui.init();
 
 
 	document.addEventListener('click', function(e) {

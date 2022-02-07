@@ -451,12 +451,18 @@ class ELA_Funcs {
 class ELA_Mods {
 
 	public function __construct() {
+		$this->funcs = new ELA_Funcs;
+
 		//	remove existing viewport settings
 		remove_action( 'genesis_meta', 'genesis_responsive_viewport' );
 
 		add_action( 'genesis_meta', array( $this, 'add_viewport' ), 2 );
 		add_action( 'wp_head', array( $this, 'add_to_header' ), 2 );
 		add_filter( 'body_class', array( $this, 'add_to_body_class' ) );
+
+		add_filter( 'genesis_footer', array( $this, 'footer' ), 5 );
+
+		add_action( 'init', array( $this, 'screenings_custom_post_type' ) );
 	}
 
 
@@ -486,6 +492,139 @@ class ELA_Mods {
 		$classes[] = "lang-en";
 
 		return $classes;
+	}
+
+
+	public function social_links( $container_class = "" ) {
+		/**
+		 * OPTIONS
+		 * 
+		 * fab fa-amazon : Amazon
+		 * far fa-envelope : Email
+		 * fab fa-facebook : Facebook
+		 * fab fa-imdb : IMDB
+		 * fab fa-instagram : Instagram
+		 * fab fa-linkedin : LinkedIn
+		 * fab fa-medium-m : Medium
+		 * fab fa-pinterest-p : Pinterest
+		 * fab fa-reddit-alien : Reddit
+		 * fab fa-skype : Skype
+		 * fab fa-snapchat-ghost : Snapchat
+		 * fab fa-twitter : Twitter
+		 * fab fa-tumblr-square : Tumblr
+		 * fab fa-vimeo-v : Vimeo
+		 * fab fa-youtube : YouTube
+		 * 
+		*/
+
+		$output = "";
+		$social = get_field( 'social_media_links', 'options' );
+
+		foreach( $social as $key => $s ) {
+			$pre = strtolower($s['profile']['label']) === "email" ? "mailto:" : "";
+			$last = $key === count($social) - 1 ? "nomargin " : "";
+			$output .= sprintf( '<a class="%srel" href="%s" target="_blank" title="%s" rel="nofollow""><i class="%s"></i></a>', $last, $pre . trim($s['link']), $s['profile']['label'], $s['profile']['value']  );
+		}
+
+		return genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> NEW_CLIENT . '-social-container',
+				'atts'		=> [ 'class' => "social-container flex vert rel " . $container_class ],
+				'content'	=> $output,
+				'echo'		=> false,
+				'close'		=> '</div>',
+			]
+		);
+	}
+
+
+	public function colophon() {
+		$output = sprintf( '<p class="colophon">Copyright &copy; %s ·', date('Y') );
+		$output .= get_bloginfo('title');
+		$output .= '<em>, all rights reserved</em>';
+		$output .= ' · carefully crafted by ';
+		$output .= '<a href="https://ethosla.com" target="_blank" rel="nofollow">ethosLA</a>';
+		$output .= '</p>';
+
+		return $output;
+	}
+
+
+	public function footer() {
+		$signup_message = get_field( 'signup_form_message', 'options' );
+		$signup = get_field( 'footer_email_signup_shortcode', 'options' );
+		$add_text = get_field( 'footer_add_text', 'options' );
+		$output = "";
+
+		$output .= '<div class="full__container rel">';
+		if ( $signup_message ) $output .= sprintf( '<div class="b-footer-signupmsg"><h2 class="standout nomargin">%s</h2></div>', $signup_message );
+		if ( $signup ) $output .= sprintf( '<div class="b-footer-signup">%s</div>', do_shortcode($signup) );
+		$output .= '</div>';
+		if ( $add_text ) $output .= sprintf( '<div class="b-footer-addtext nomargin_children">%s</div>', $add_text );
+		$output .= $this->social_links('horiz');
+
+		genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> 'footer-add',
+				'atts'		=> [ 'class' => "b-footer full__container" ],
+				'content'	=> $output,
+				'close'		=> '</div>',
+			]
+		);
+
+		genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> NEW_CLIENT . '-colophon',
+				'atts'		=> [ 'class' => "colophon-wrap full__container" ],
+				'content'	=> $this->colophon(),
+				'close'		=> '</div>',
+			]
+		);
+	}
+
+
+	//  create screening post type
+	public function screenings_custom_post_type() {
+		$labels = array(
+			'name'                => __( 'Screenings' ),
+			'singular_name'       => __( 'Screening' ),
+			'menu_name'           => __( 'Screenings' ),
+			'parent_item_colon'   => __( 'Parent Screening' ),
+			'all_items'           => __( 'All Screenings' ),
+			'view_item'           => __( 'View Screening' ),
+			'add_new_item'        => __( 'Add New Screening' ),
+			'add_new'             => __( 'Add New Screening' ),
+			'edit_item'           => __( 'Edit Screening' ),
+			'update_item'         => __( 'Update Screening' ),
+			'search_items'        => __( 'Search Screening' ),
+			'not_found'           => __( 'Not Found' ),
+			'not_found_in_trash'  => __( 'Not found in Trash' )
+		);
+		$args = array(
+			'label'               => __( 'screenings' ),
+			'description'         => __( get_bloginfo('title') . ' Screenings' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'thumbnail', 'revisions', 'custom-fields'),
+			'public'              => true,
+			'hierarchical'        => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'has_archive'         => true,
+			'menu_icon'			  => 'dashicons-editor-video',
+			'can_export'          => true,
+			'exclude_from_search' => false,
+				'yarpp_support'       => true,
+			'taxonomies' 	      => array('post_tag'),
+			'publicly_queryable'  => true,
+			'capability_type'     => 'page'
+		);
+
+		register_post_type( 'screenings', $args );
 	}
 	
 }
@@ -680,6 +819,37 @@ $ela_header_nav = new ELA_Header_nav;
 
 
 #-----------------------------------------------------------------#
+#	SHORTCODES
+#-----------------------------------------------------------------#
+
+class ELA_Shortcodes {
+	public function __construct() {
+		add_shortcode('wwlb_fade', array( $this, 'fade_spans' ) );
+		add_shortcode( 'SCREENINGS', array( $this, 'print_screenings' ) );
+	}
+
+
+	public function fade_spans( $atts, $content = null ) {
+		return '<span class="__fade">' . $content . '</span>';
+	}
+
+
+	public function print_screenings($atts) {
+		extract(shortcode_atts(array(
+			'limit'			=> null,
+			'text'			=> "dark",
+			'message'		=> "No upcoming screenings currently scheduled. Please check back soon."
+	  ), $atts));
+
+	  return get_template_part( E_TEMPLATES, 'screenings', array( "limit" => $limit, "text" => $text, "message" => $message ) );
+	}
+}
+
+$ela_sc = new ELA_Shortcodes;
+
+
+
+#-----------------------------------------------------------------#
 #	ELEMENTS
 #-----------------------------------------------------------------#
 
@@ -689,11 +859,26 @@ class ELA_Elements {
 		 // $this->key = $key;
 	}
 
-	public function vimeoVideo( $id, $cls = false, $poster = false ) {
-		//	need to add poster code
-		$v = '<iframe class="lazy loadImg full__container rel '. $cls .'" data-src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+	public static function vimeoVideo( $id, $cls = false, $poster = false ) {
+		$v = '<iframe class="full__container rel '. $cls .'" src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 
 		return $v;
+	}
+
+	public static function youtubeVideo( $id, $cls = false ) {
+		$y = '<iframe class="full__container rel '. $cls .'" src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=0&loop=0&modestbranding=0&iv_load_policy=3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+
+		return $y;
+	}
+
+	public static function social_menu() {
+		$social = get_field( 'social_media_accounts', 'options' );
+		$last = "";
+
+		foreach( $social as $key => $s ) {
+			if ( $key === count($social) - 1 ) $last = " nomargin";
+			printf( '<a href="%s" target="_blank" title="%s" rel="nofollow""><i class="%s white%s"></i></a>', $s['url'], $s['name'], $s['icon'], $last );
+		}
 	}
 	
 }
