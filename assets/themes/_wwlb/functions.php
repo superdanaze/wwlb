@@ -297,7 +297,7 @@ remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
  * 
  */
 
-define('NEW_CLIENT','((CLIENT_DIR))');
+define('NEW_CLIENT','wwlb');
 define('E_TEMPLATE','page-templates/template');
 define('E_TEMPLATES','page-templates/template-parts/template');
 define('E_FLEX','page-templates/template-parts/flex');
@@ -342,7 +342,7 @@ function ethosLA_enqueue_login_items() {
 
 function ethosLA_enqueue_scripts() {
 	wp_enqueue_script('font-awesome', get_stylesheet_directory_uri() . '/js/fontawesome-all.min.js',array(),null,true);
-	wp_enqueue_script('((CLIENT_DIR))-ui', 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',array(),null,true);
+	wp_enqueue_script('wwlb-ui', 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',array(),null,true);
 	wp_enqueue_script( NEW_CLIENT . "-script", get_stylesheet_directory_uri() . "/js/script.js",array(),null,true);
 }
 
@@ -414,7 +414,7 @@ class ELA_Funcs {
 		}
 
 		if ( $print ) {
-			add_action( 'wp_head', function() use( $id ) {
+			add_action( 'wp_footer', function() use( $id ) {
 				print self::minimizeCSS( sprintf('<style id="%s">%s</style>', $id, $this->allcss[$id] ) );
 			});
 		}
@@ -495,7 +495,7 @@ class ELA_Mods {
 	}
 
 
-	public function social_links( $container_class = "" ) {
+	public static function social_links( $container_class = "" ) {
 		/**
 		 * OPTIONS
 		 * 
@@ -539,7 +539,7 @@ class ELA_Mods {
 	}
 
 
-	public function colophon() {
+	public static function colophon() {
 		$output = sprintf( '<p class="colophon">Copyright &copy; %s ·', date('Y') );
 		$output .= get_bloginfo('title');
 		$output .= '<em>, all rights reserved</em>';
@@ -552,28 +552,10 @@ class ELA_Mods {
 
 
 	public function footer() {
-		$signup_message = get_field( 'signup_form_message', 'options' );
-		$signup = get_field( 'footer_email_signup_shortcode', 'options' );
-		$add_text = get_field( 'footer_add_text', 'options' );
-		$output = "";
 
-		$output .= '<div class="full__container rel">';
-		if ( $signup_message ) $output .= sprintf( '<div class="b-footer-signupmsg"><h2 class="standout nomargin">%s</h2></div>', $signup_message );
-		if ( $signup ) $output .= sprintf( '<div class="b-footer-signup">%s</div>', do_shortcode($signup) );
-		$output .= '</div>';
-		if ( $add_text ) $output .= sprintf( '<div class="b-footer-addtext nomargin_children">%s</div>', $add_text );
-		$output .= $this->social_links('horiz');
+		get_template_part( E_TEMPLATE, 'footer' );
 
-		genesis_markup(
-			[
-				'open'		=> '<div %s>',
-				'context'	=> 'footer-add',
-				'atts'		=> [ 'class' => "b-footer full__container" ],
-				'content'	=> $output,
-				'close'		=> '</div>',
-			]
-		);
-
+		//	colophon
 		genesis_markup(
 			[
 				'open'		=> '<div %s>',

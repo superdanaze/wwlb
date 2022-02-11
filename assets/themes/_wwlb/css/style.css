@@ -136,6 +136,13 @@ footer {
     position: relative;
 }
 
+/*  flex + grid  */
+
+.flex.wrap {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
 
 /*  LANGUAGE CHANGE
 =========================================== */
@@ -171,7 +178,6 @@ article form {
 .wwlb-mc-form textarea,
 .wwlb-mc-form select {
     background:none;
-    /* border:3px solid var(--b-dk-grey); */
     color:var(--text);
 }
 .wwlb-mc-form ::placeholder {
@@ -200,13 +206,13 @@ article form {
     margin-bottom: 10px;
 }
 .wwlb-mc-form input[type="submit"] {
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 6px;
     color:var(--light);
     border:1px solid transparent;
     -webkit-transition:0.25s all ease-out;
     transition:0.25s all ease-out;
-    /* margin-top: 25px; */
 }
 
 .wwlb-mc-form .wpcf7-not-valid-tip {
@@ -238,6 +244,13 @@ article form {
 
 /*  footer signup form  */
 
+footer .wwlb-mc-form {
+    grid-template-areas:
+        "fname lname"
+        "email email"
+        "submit submit";
+    gap:15px;
+}
 footer .wwlb-mc-form form {
     width: 100%;
     max-width:700px;
@@ -248,43 +261,53 @@ footer .wwlb-mc-form .name-field-wrap {
     grid-gap:15px;
     padding-bottom:15px;
 }
+footer .wwlb-mc-form .fname {
+    grid-area: fname;
+}
+footer .wwlb-mc-form .lname {
+    grid-area: lname;
+}
+footer .wwlb-mc-form .email {
+    grid-area: email;
+}
+footer .wwlb-mc-form .subscribe {
+    grid-area: submit;
+}
+
 footer .wwlb-mc-form input:not([type="submit"]) {
     background:none;
-    border:3px solid var(--b-light);
-    color:var(--b-light);
+    border:2px solid var(--light);
+    color:var(--light);
 }
 footer .wwlb-mc-form ::placeholder {
-    color:var(--b-light);
+    color:var(--light);
 }
 footer .wwlb-mc-form ::-webkit-input-placeholder {
-    color:var(--b-light);
+    color:var(--light);
 }
 footer .wwlb-mc-form :-moz-placeholder {
-    color:var(--b-light);
+    color:var(--light);
 }
 footer .wwlb-mc-form ::-moz-placeholder {
-    color:var(--b-light);
+    color:var(--light);
 }
 footer .wwlb-mc-form :-ms-input-placeholder {
-    color:var(--b-light);
+    color:var(--light);
 }
 
 footer .wwlb-mc-form input[type="submit"] {
-    background:var(--b-light);
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
+    background:var(--light);
     letter-spacing: 6px;
-    color:var(--b-orange);
-    border:3px solid transparent;
-    border-radius: 0;
-    -webkit-transition:0.25s all ease-out;
-    transition:0.25s all ease-out;
-    margin-top: 25px;
-    padding:15px 75px;
+    color:var(--dark);
+    border:2px solid transparent;
+    padding:12px 75px;
+    float:left;
 }
-footer .wwlb-mc-form input[type="submit"]:hover {
-    border-color: var(--b-orange);
+footer .wwlb-mc-form input[type="submit"]:hover,
+footer .wwlb-mc-form input[type="submit"]:active {
+    background:var(--dark);
+    color:var(--light);
+    border-color: transparent;
 }
 
 
@@ -622,9 +645,27 @@ body.mobile-nav footer {
 }
 
 
+/*  TEMPLATE PART :: FUNDERS LOGOS
+=========================================== */
+
+.funders-title h2 {
+    border-top:1px solid rgba(255,255,255,0.5);
+    border-bottom:1px solid rgba(255,255,255,0.5);
+}
+.funders-inner .funder-logo-wrap {
+    padding-block: 25px;
+}
+.funders-inner img {
+    width:auto;
+}
+
+
 /*  HOME
 =========================================== */
 
+.home-synopsis-block {
+    overflow: hidden;
+}
 .home-synopsis-block:before,
 .home-synopsis-block:after {
     width:1px;
@@ -712,11 +753,12 @@ body.mobile-nav footer {
 
 footer.site-footer {
     background-color: transparent;
+    border:none;
     position: relative;
 }
 footer:before,
 footer:after {
-    top:-175px; 
+    top:-300px; 
     left:0;
     width:100%;
     content:"" !important;
@@ -726,7 +768,7 @@ footer:after {
 footer:before {
     background:url(../images/footer-sky-bg.jpg) center center no-repeat;
     background-size: cover;
-    height:calc(100% + 175px);
+    height:calc(100% + 300px);
     z-index: -2;
 }
 footer:after {
@@ -736,9 +778,39 @@ footer:after {
     background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 3%, rgba(255,255,255,0) 100%);
     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 3%, rgba(255,255,255,0) 100%);
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 3%, rgba(255,255,255,0) 100%);
-    height:175px;
+    height:350px;
     z-index: -1;
 }
 
+footer .footer-inner {
+    gap:75px;
+}
 
+footer nav.footer-nav ul li {
+    text-align: left;
+}
+footer nav.footer-nav ul li:not(:last-child) {
+    padding-bottom: 10px;
+}
+footer nav.footer-nav ul li a {
+    font-size: 17px;
+    color:var(--light);
+}
+
+footer .social-container a {
+    margin-inline:10px;
+    padding-inline:15px;
+}
+footer .social-container a svg {
+    font-size: 24px;
+    color:var(--light);
+}
+p.colophon,
+p.colophon a {
+    font-size: 14px;
+    color:rgba(255,255,255,0.5);
+}
+p.colophon a:hover {
+    color:rgba(255,255,255,1);
+}
 
