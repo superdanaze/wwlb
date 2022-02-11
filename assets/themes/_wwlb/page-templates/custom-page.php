@@ -7,12 +7,12 @@
  *
  */
 
-//	custom hero atts
-$custom_hero = get_field('add_custom_hero_section');
-$hero_type = get_field('hero_section_type');
+//	custom header atts
+$header_style = get_field('header_color_scheme');
+$has_logo = get_field('show_logo');
 
 
-add_filter( 'body_class', 'rp_page_custom_body_class' );
+add_filter( 'body_class', 'ela_custom_body_class' );
 /**
  * Adds landing page body class.
  *
@@ -21,24 +21,32 @@ add_filter( 'body_class', 'rp_page_custom_body_class' );
  * @param array $classes Original body classes.
  * @return array Modified body classes.
  */
-function rp_page_custom_body_class( $classes ) {
+function ela_custom_body_class( $classes ) {
+	//	custom header atts
+	global $header_style;
+	global $has_logo;
 
-	$classes[] = 'rp-page';
-    if ( is_front_page() ) $classes[] = 'nav-abs';
+	$classes[] = 'wwlb-page';
+	$classes[] = $header_style;
 
-	//	add custom hero class
-	global $custom_hero;
-	if ( $custom_hero ) $classes[] = 'has-hero';
+	if ( !$has_logo ) $classes[] = 'no-logo';
 
 	return $classes;
 
 }
+
+
+//	get logo
+if ( $has_logo ) get_template_part( E_TEMPLATES , 'logo-select', array( 'header_style' => $header_style ) );
 
 //  remove post title
 remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
 
 //  remove main wrapper
 add_filter( 'genesis_markup_content', '__return_null' );
+
+//	remove content sidebar wrapper
+add_filter( 'genesis_markup_content-sidebar-wrap', '__return_null' );
 
 
 //  custom hero area
