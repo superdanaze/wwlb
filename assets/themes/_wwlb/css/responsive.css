@@ -2,6 +2,26 @@
     
     /*  HERO SECTIONS
     =========================================== */
+
+
+    /*  SCREENINGS
+    =========================================== */
+
+    .b-screening-item-wrap {
+        grid-template:
+            "title" auto
+            "date" auto
+            "location" auto
+            / 1fr;
+    }
+
+
+    /*  FOOTER
+    =========================================== */
+
+    footer .footer-inner {
+        grid-template-columns: 1fr;
+    }
     
     
 
@@ -17,13 +37,51 @@
 
 @media screen and ( min-width: 640px ) {
 
+    /*  SCREENINGS
+    =========================================== */
+
+    .b-screening-item-wrap {
+        grid-template:
+            "title title" auto
+            "date location" auto
+            / 260px 1fr;
+    }
+
 }
 
 
 
 @media screen and ( min-width: 768px ) {
 
+    /*  FORMS
+    =========================================== */
+
+    /*  general form  */
+
+    article .wwlb-mc-form {
+        grid-template-columns: 2fr 2fr 3fr 200px;
+    }
     
+    
+
+
+    /*  SCREENINGS
+    =========================================== */
+
+    .b-screening-item-wrap {
+        grid-template:
+            "date title location" auto
+            / 260px 2fr 1fr;
+        grid-column-gap: 25px;
+    }
+
+
+    /*  FOOTER
+    =========================================== */
+
+    footer .footer-inner {
+        grid-template-columns: 2fr 3fr;
+    }
 
 
 }
@@ -105,6 +163,15 @@
         font-size: 21.5px;
     }
 
+
+    /*  FORMS
+    =========================================== */
+    
+    /*  general form  */
+
+    .wwlb-mc-form input[type="submit"] {
+        padding:15px 75px;
+    }
 
     
     
