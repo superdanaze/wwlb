@@ -341,9 +341,12 @@ function ethosLA_enqueue_login_items() {
 #-----------------------------------------------------------------#
 
 function ethosLA_enqueue_scripts() {
-	wp_enqueue_script('font-awesome', get_stylesheet_directory_uri() . '/js/fontawesome-all.min.js',array(),null,true);
+	// wp_enqueue_script('font-awesome', get_stylesheet_directory_uri() . '/js/fontawesome-all.min.js',array(),null,true);
+	// wp_enqueue_script('fa-brands', get_stylesheet_directory_uri() . '/js/fa-brands.min.js',array(),null,true);
+	// wp_enqueue_script('fa-light', get_stylesheet_directory_uri() . '/js/fa-light.min.js',array(),null,true);
 	wp_enqueue_script('wwlb-ui', 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',array(),null,true);
 	wp_enqueue_script( NEW_CLIENT . "-script", get_stylesheet_directory_uri() . "/js/script.js",array(),null,true);
+	wp_enqueue_script('fa-all', get_stylesheet_directory_uri() . '/js/fa-all.min.js',array(),null,true);
 }
 
 add_action( 'wp_enqueue_scripts', 'ethosLA_enqueue_scripts' );
@@ -413,7 +416,7 @@ class ELA_Funcs {
 			$this->allcss[$id] .= $css;
 		}
 
-		if ( $print ) {
+		if ( $print && array_key_exists( $id, $this->allcss ) ) {
 			add_action( 'wp_footer', function() use( $id ) {
 				print self::minimizeCSS( sprintf('<style id="%s">%s</style>', $id, $this->allcss[$id] ) );
 			});
@@ -461,6 +464,7 @@ class ELA_Mods {
 		add_filter( 'body_class', array( $this, 'add_to_body_class' ) );
 
 		add_filter( 'genesis_footer', array( $this, 'footer' ), 5 );
+		add_filter( 'genesis_after_footer', array( $this, 'language_select' ) );
 
 		add_action( 'init', array( $this, 'screenings_custom_post_type' ) );
 	}
@@ -551,12 +555,52 @@ class ELA_Mods {
 	}
 
 
+	public function language_select() {
+
+		//	icon
+		$output = genesis_markup(
+			[
+				'open'		=> '<i %s>',
+				'context'	=> 'language_select_icon',
+				'atts'		=> [ 'class' => "fal fa-fw fa-glasses-alt nopoint" ],
+				'echo'		=> false,
+				'close'		=> '</i>',
+			]
+		);
+
+		//	message
+		$lang_msg = '<p class="eng white nomargin L_mini">ver en Español</p>';
+		$lang_msg .= '<p class="esp white nomargin L_mini">view in English</p>';
+
+		$output .= genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> 'language_select_message',
+				'atts'		=> [ 'class' => "lang-select-msg nopoint" ],
+				'content'	=> $lang_msg,
+				'echo'		=> false,
+				'close'		=> '</div>',
+			]
+		);
+
+		return genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> 'language_select_master',
+				'atts'		=> [ 'class' => "lang-select fixed flex vert z100 easy_does_it" ],
+				'content'	=> $output,
+				'close'		=> '</div>',
+			]
+		);
+	}
+
+
 	public function footer() {
 
 		get_template_part( E_TEMPLATE, 'footer' );
 
 		//	colophon
-		genesis_markup(
+		return genesis_markup(
 			[
 				'open'		=> '<div %s>',
 				'context'	=> NEW_CLIENT . '-colophon',

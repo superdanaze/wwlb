@@ -24,6 +24,27 @@ span.__fade {
 }
 
 
+/*  WP ADMIN SPECIFIC STYLES
+=========================================== */
+
+.elementor-html .site-header {
+    display:none;
+}
+
+.elementor-html .sliding-hero-wrap {
+    max-height: unset;
+    overflow: visible;
+}
+.elementor-html .sliding-hero-wrap img {
+    position: relative;
+}
+
+.elementor-html .lang-en .esp,
+.elementor-html .lang-es .eng {
+    display:block !important;
+}
+
+
 /*  TYPOGRAPHY
 =========================================== */
 
@@ -115,6 +136,19 @@ ul li a {
 }
 
 
+/*  ANIMATIONS
+=========================================== */
+
+@keyframes fade-in-half {
+    0% { opacity: 0 }
+    100% { opacity: 0.5 }
+}
+@-webkit-keyframes fade-in-half {
+    0% { opacity: 0 }
+    100% { opacity: 0.5 }
+}
+
+
 /*  CONTAINERS
 =========================================== */
 
@@ -144,8 +178,47 @@ footer {
 }
 
 
-/*  LANGUAGE CHANGE
+/*  LANGUAGE SELECT / CHANGE
 =========================================== */
+
+.lang-select {
+    background: -moz-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(0,0,0,0.92)), color-stop(29%, rgba(19,22,38,0.9)), color-stop(61%, rgba(34,23,2,0.88)), color-stop(92%, rgba(0,0,0,0.86)), color-stop(100%, rgba(0,0,0,0.85)));
+    background: -webkit-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
+    background: -o-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
+    background: linear-gradient(135deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
+    height: 55px;
+    bottom:15px;
+    right:15px;
+    border:1px solid #fafafa;
+    border-radius: 55px;
+    cursor: pointer;
+    opacity: 0;
+    -webkit-animation:fade-in-half 1s ease-in-out 3s forwards;
+    animation:fade-in-half 1s ease-in-out 3s forwards;
+    padding: 15px;
+}
+.ismobile .lang-select.active, 
+.lang-select:hover {
+    opacity: 1 !important;
+}
+.lang-select svg path {
+    fill:#fff;
+}
+.lang-select-msg {
+    width: 0;
+    opacity: 0;
+    -webkit-transition:0s all ease;
+    transition:0s all ease;
+}
+.ismobile .lang-select.active .lang-select-msg,
+.lang-select:hover .lang-select-msg {
+    width: auto;
+    opacity: 1;
+    -webkit-transition:0.45s all ease-in-out;
+    transition:0.45s all ease-in-out;
+}
 
 .lang-en .esp,
 .lang-es .eng {
@@ -658,6 +731,71 @@ body.mobile-nav footer {
 .funders-inner img {
     width:auto;
 }
+
+
+/*  TEMPLATE PART :: SLIDING IMAGE HERO
+=========================================== */
+
+.sliding-hero-wrap {
+    background:var(--dk_brown);
+    height:auto;
+    max-height: 125vh;
+    overflow: hidden;
+}
+.sliding-hero-wrap img {
+    top:0;
+    left:0;
+    width:100%;
+    max-width: 100%;
+    position: absolute;
+}
+.sliding-text-wrap {
+    border-radius: 7px;
+    overflow: hidden;
+}
+.sliding-text-wrap .elementor-widget-container p:last-child {
+    margin-bottom:0;
+}
+
+
+/*  TEMPLATE PART :: FILMMAKERS
+=========================================== */
+
+.filmmaker img {
+    width:85%;
+    max-width: 285px !important;
+    border:3px solid rgba(255,255,255,0.15) !important;
+    border-radius: 50% !important;
+    z-index: 1;
+    position: relative;
+}
+.filmmaker .elementor-widget-image .elementor-widget-container {
+    display: inline-block;
+    position: relative;
+}
+.filmmaker .elementor-widget-image .elementor-widget-container:before,
+.filmmaker .elementor-widget-image .elementor-widget-container:after {
+    content:"";
+    display: block;
+    border-radius: 50%;
+    z-index: 0;
+    position: absolute;
+}
+.filmmaker .elementor-widget-image .elementor-widget-container:before {
+    background:rgb(19,22,38);
+    width:225px;
+    height:225px;
+    top:25px;
+    left:-15px;
+}
+.filmmaker .elementor-widget-image .elementor-widget-container:after {
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='100%25'%3E%3Cdefs%3E%3Cpattern id='doodad' width='40' height='40' viewBox='0 0 40 40' patternUnits='userSpaceOnUse' patternTransform='rotate(24)'%3E%3Crect width='100%25' height='100%25' fill='rgba(34, 23, 2,1)'/%3E%3Cpath d='M0 20h3v3h-3zM40 20h3v3h-3zM40 20h3v3h-3z' fill='rgba(134, 23, 2,1)'/%3E%3Cpath d='M20 20h3v3h-3zM60 20h3v3h-3z' fill='rgba(236, 201, 75,0.5)'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23doodad)' height='200%25' width='200%25'/%3E%3C/svg%3E ");
+    width:150px;
+    height:150px;
+    bottom:-20px;
+    right:0px;
+}
+
 
 
 /*  HOME

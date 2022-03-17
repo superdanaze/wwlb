@@ -238,9 +238,165 @@ window.isMobile = {
 		}
 	};
 
-
 	//	init wwlb ui items
 	wwlbui.init();
+
+
+	let lang_select = {
+		selector		: document.querySelector('.lang-select'),
+		_click			: 0,
+
+		init: function() {
+			this.selector.addEventListener('click', (e) => {
+				//	activate language
+				this.activate(e);
+
+				//	execute language dependent actions
+				this.execute();
+			});
+
+			//	reset click & button for mobile
+			if ( window.isMobile.any() ) {
+				document.addEventListener('click', (e) => {
+					if ( !e.target.classList.contains('lang-select') ) {
+						this._click = 0;
+						this.selector.classList.remove('active');
+					}
+				});
+			}
+
+			//	duplicate language modal fix
+			this.lang_select_fix();
+		},
+
+		activate: function(e) {
+			let body = document.body.classList;
+
+			if ( window.isMobile.any() ) {
+				if ( this._click === 0 ) {
+					this._click = 1;
+					this.selector.classList.add('active');
+				} else if ( this._click === 1 ) {
+					if ( body.contains('lang-en') ) {
+						body.remove('lang-en');
+						body.add('lang-es');
+
+						document.body.dataset.lang = 'esp';
+					} else if ( body.contains('lang-es') ) {
+						body.remove('lang-es');
+						body.add('lang-en');
+
+						document.body.dataset.lang = 'eng';
+					}
+
+					// //	reset click & button
+					// this._click = 0;
+					// this.selector.classList.remove('active');
+				}
+			} else {
+				if ( body.contains('lang-en') ) {
+					body.remove('lang-en');
+					body.add('lang-es');
+
+					document.body.dataset.lang = 'esp';
+				} else if ( body.contains('lang-es') ) {
+					body.remove('lang-es');
+					body.add('lang-en');
+
+					document.body.dataset.lang = 'eng';
+				}
+			}
+		},
+
+		lang_select_fix: function() {
+			let l = document.querySelectorAll('.lang-select');
+			if ( l.length > 1 ) l[1].remove();
+		},
+
+		execute: function() {
+			//	make sure sliding image(s) are targeting correct image
+			sliding_hero.set_active_img();
+			
+		}
+	};
+
+	//	init
+	lang_select.init();
+
+
+	let sliding_hero = {
+		wrap		: document.querySelector('.sliding-hero-wrap'),
+		img			: document.querySelector('.sliding-hero-wrap').querySelector('img'),
+		text		: document.querySelector('.sliding-text-wrap'),
+
+		init: function() {
+			//	set the height of the wrapper
+			this.setHeight();
+		},
+
+		setHeight: function() {
+			let wh = window.innerHeight,
+				ih = this.img.offsetHeight;
+
+			if ( wh * 1.25 > ih ) {
+				this.wrap.style.height = ih + "px";
+			} else {
+				this.wrap.style.height = wh * 1.25 + "px";
+			}
+		},
+
+		set_active_img: function() {
+			let key = document.body.dataset.lang;
+			if ( this.wrap ) this.img = this.wrap.querySelector(`.${key} img`);
+		},
+
+		scroll_img: function(e) {
+			let bottom = this.wrap.getBoundingClientRect().bottom,
+				diff = this.img.offsetHeight - this.wrap.offsetHeight,
+				travel = (window.innerHeight * 1.25) - (window.innerHeight / 2),
+				Y = window.pageYOffset;
+
+			if ( this.img.offsetHeight > window.innerHeight && bottom > (window.innerHeight / 2) ) {
+				//	scroll image
+				anime({
+					targets : this.img,
+					translateY : -((diff / travel) * Y),
+					duration : 150,
+					easing : "easeOutQuad"
+				});
+
+				//	scroll text
+				this.scroll_text( travel, Y );
+			} else if ( this.img.offsetHeight > window.innerHeight && bottom <= (window.innerHeight / 2) ) {
+
+				//	if scrolled past midway point of viewport
+				this.img.style.transform = `translateY(-${diff}px)`;
+				this.scroll_text( travel, Y, false );
+			}
+		},
+
+		scroll_text: function( travel, Y, scroll = true ) {
+			let diff = 100;
+
+			if ( scroll ) {
+				anime({
+					targets : this.text,
+					translateY : -((diff / travel) * Y),
+					duration : 150,
+					easing : "easeOutQuad"
+				});
+			} else {
+				this.text.style.transform = `translateY(-${diff}px)`;
+			}
+			
+		}
+	};
+
+	//	init sliding hero items
+	if ( sliding_hero.wrap ) sliding_hero.init();
+
+
+	
 
 
 	document.addEventListener('click', function(e) {
@@ -254,9 +410,14 @@ window.isMobile = {
 
 	});
 
+	window.addEventListener('scroll', function(e) {
+		sliding_hero.scroll_img(e);
+	});
+
 
 	window.addEventListener('resize', function(e) {
-
+		//	set height of sliding hero 
+		if ( sliding_hero.wrap ) sliding_hero.setHeight();
 	});
 	
 }();
