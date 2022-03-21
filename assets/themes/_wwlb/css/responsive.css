@@ -221,13 +221,6 @@
     =========================================== */
 
     /*  mobile nav  */
-    
-    .mobile-menu-master-wrap:before {
-        width:200vh;
-        height:200vh;
-        top:-50vh;
-        left:-50vh;
-    }
 }
 
 
@@ -238,13 +231,6 @@
     =========================================== */
 
     /*  mobile nav  */
-
-    .mobile-menu-master-wrap:before {
-        width:200vw;
-        height:200vw;
-        top:-50vw;
-        left:-50vw;
-    }
 
 }
 

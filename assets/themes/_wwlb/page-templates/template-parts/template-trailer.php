@@ -1,58 +1,56 @@
 <?php
 
     //  FILM TRAILER TEMPLATE
-
-        $trailerID = get_field('trailer_id', 'options');
-        $type = get_field('trailer_type', 'options');
+        global $super_mods;
+        $funcs = $super_mods->funcs;
+        $trailerID = $super_mods->trailerID;
+        $type = $super_mods->trailer_type;
 
 
         if ( $trailerID !== "" ) {
-            //  wrap open
+            ob_start();
+
+                //  close X
+                genesis_markup(
+                    [
+                        'open'      => '<div %s>',
+                        'context'   => 'trailer_close_X',
+                        'atts'      => [ 'class' => 'closeX-wrap '. $type .' flex horiz vert abs z10', 'data-action' => 'trailer-close' ],
+                        'content'   => '<span></span><span></span>',
+                        'close'     => '</div>'
+                    ]
+                );
+
+                //  trailer
+                if ( $type === 'youtube' ) {
+                    print ELA_Elements::youtubeVideo( $trailerID, 'full__height', true );
+                } else if ( $type === 'vimeo' ) {
+                    print ELA_Elements::vimeoVideo( $trailerID, 'full__height', true );
+                }
+
+            $output = ob_get_clean();
+
+
             genesis_markup(
                 [
                     'open'		=> '<div %s>',
                     'context'	=> 'trailer_wrap',
-                    'atts'		=> [ 'id' => '__trailer', 'class' => "ela-trailer-wrap full__container full__frame__height topleft bg_dk_dk_grey fixed start hide" ]
-                ]
-            );
-
-            //  close X
-            genesis_markup(
-                [
-                    'open'      => '<div %s>',
-                    'context'   => 'trailer_close_X',
-                    'atts'      => [ 'class' => 'closeX-wrap '. $type .' flex horiz vert abs z10', 'data-action' => 'trailer_close' ],
-                    'content'   => '<span></span><span></span>',
-                    'close'     => '</div>'
-                ]
-            );
-
-            //  trailer
-            if ( $type === 'youtube' ) {
-                print ELA_Elements::youtubeVideo( $trailerID, 'full__height hide start' );
-            } else if ( $type === 'vimeo' ) {
-                print ELA_Elements::vimeoVideo( $trailerID, 'full__height hide start' );
-            }
-
-            //  wrap close
-            genesis_markup(
-                [
-                    'context'	=> 'trailer_wrap',
+                    'atts'		=> [ 'id' => '__trailer', 'class' => "ela-trailer-wrap full__container full__frame__height topleft bg_dk_dk_grey fixed start hide z100" ],
+                    'content'   => $output,
                     'close'		=> '</div>'
                 ]
             );
 
         } else {
             $css = "
-                <style>
-                    ul.menu li.trailer {
-                        display:none !important;
-                    }
-                </style>
+                ul.menu li.trailer {
+                    display:none !important;
+                }
             ";
 
-            print minimizeCSS($css);
+            $funcs->aggregate_css( 'trailer', $css, true );
         }
+
 
 
 ?>

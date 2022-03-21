@@ -455,6 +455,8 @@ class ELA_Mods {
 
 	public function __construct() {
 		$this->funcs = new ELA_Funcs;
+		$this->trailerID = get_field( 'trailer_id', 'options' );
+		$this->trailer_type = get_field( 'trailer_type', 'options' );
 
 		//	remove existing viewport settings
 		remove_action( 'genesis_meta', 'genesis_responsive_viewport' );
@@ -465,6 +467,7 @@ class ELA_Mods {
 
 		add_filter( 'genesis_footer', array( $this, 'footer' ), 5 );
 		add_filter( 'genesis_after_footer', array( $this, 'language_select' ) );
+		add_filter( 'genesis_after_footer', array( $this, 'trailer' ) );
 
 		add_action( 'init', array( $this, 'screenings_custom_post_type' ) );
 	}
@@ -545,7 +548,8 @@ class ELA_Mods {
 
 	public static function colophon() {
 		$output = sprintf( '<p class="colophon">Copyright &copy; %s ·', date('Y') );
-		$output .= get_bloginfo('title');
+		$output .= "Borderchild Productions LLC";
+		// $output .= get_bloginfo('title');
 		$output .= '<em>, all rights reserved</em>';
 		$output .= ' · carefully crafted by ';
 		$output .= '<a href="https://ethosla.com" target="_blank" rel="nofollow">ethosLA</a>';
@@ -609,6 +613,11 @@ class ELA_Mods {
 				'close'		=> '</div>',
 			]
 		);
+	}
+
+
+	public function trailer() {
+		get_template_part( E_TEMPLATES, 'trailer' );
 	}
 
 
@@ -885,14 +894,24 @@ class ELA_Elements {
 		 // $this->key = $key;
 	}
 
-	public static function vimeoVideo( $id, $cls = false, $poster = false ) {
-		$v = '<iframe class="full__container rel '. $cls .'" src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+	public static function vimeoVideo( $id, $cls = false, $modal = false, $poster = false ) {
+		if ( $modal ) {
+			$v = '<iframe class="full__container rel '. $cls .'" data-src="https://player.vimeo.com/video/'. $id .'?autoplay=1&loop=1&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+		} else {
+			$v = '<iframe class="full__container rel '. $cls .'" src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+		}
+		
 
 		return $v;
 	}
 
-	public static function youtubeVideo( $id, $cls = false ) {
-		$y = '<iframe class="full__container rel '. $cls .'" src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=0&loop=0&modestbranding=0&iv_load_policy=3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+	public static function youtubeVideo( $id, $cls = false, $modal = false ) {
+		if ( $modal ) {
+			$y = '<iframe class="full__container rel '. $cls .'" data-src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=1&loop=1&modestbranding=0&iv_load_policy=3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+		} else {
+			$y = '<iframe class="full__container rel '. $cls .'" src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=0&loop=0&modestbranding=0&iv_load_policy=3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+		}
+		
 
 		return $y;
 	}

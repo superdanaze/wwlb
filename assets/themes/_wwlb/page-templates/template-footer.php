@@ -2,8 +2,9 @@
 
     //  FOOTER TEMPLATE
 
-	$mod = new ELA_Mods;
-	$funcs = new ELA_funcs;
+	global $super_mods;
+	$funcs = $super_mods->funcs;
+	$trailerID = $super_mods->trailerID;
     $signup_message_en = get_field( 'signup_form_message_english', 'options' );
     $signup_message_es = get_field( 'signup_form_message_spanish', 'options' );
     $signup_en = get_field( 'footer_email_signup_shortcode', 'options' );
@@ -31,9 +32,11 @@
 				print '<nav class="footer-nav">';
 
 					//	view trailer pre nav
-					print '<div class="wwlb_btn solid light flex B_md">';
-						print '<a class="btn-main md" href="" data-action="" rel="nofollow">View Trailer</a>';
-					print '</div>';
+					if ( $trailerID ) :
+						print '<div class="wwlb_btn solid light flex B_md">';
+							print '<a class="btn-main md" href="#" data-action="trailer-open" rel="nofollow">View Trailer</a>';
+						print '</div>';
+					endif;
 	
 					//	nav
 					print wp_nav_menu( array( 'menu' => 1 ) );
@@ -73,7 +76,7 @@
 		print '</div>';
 
 		//	social media links
-		print $mod->social_links('horiz T_xlg B_lg');
+		print $super_mods->social_links('horiz T_xlg B_lg');
 
 	$output = ob_get_clean();
 

@@ -153,9 +153,9 @@ window.isMobile = {
 						this.trigger.dataset.action = "nav-open";
 
 						//	remove classes
+						this.navwrap.classList.remove('active');
 						setTimeout(() => { 
 							this.trigger.classList.remove('active');
-							this.navwrap.classList.remove('active');
 						}, 500);
 					}
 				});
@@ -264,9 +264,6 @@ window.isMobile = {
 					}
 				});
 			}
-
-			//	duplicate language modal fix
-			this.lang_select_fix();
 		},
 
 		activate: function(e) {
@@ -306,11 +303,6 @@ window.isMobile = {
 					document.body.dataset.lang = 'eng';
 				}
 			}
-		},
-
-		lang_select_fix: function() {
-			let l = document.querySelectorAll('.lang-select');
-			if ( l.length > 1 ) l[1].remove();
 		},
 
 		execute: function() {
@@ -400,6 +392,50 @@ window.isMobile = {
 	if ( sliding_hero.wrap ) sliding_hero.init();
 
 
+	let trailer = {
+		wrap		: document.querySelector('.ela-trailer-wrap'),
+		iframe		: document.querySelector('.ela-trailer-wrap').querySelector('iframe'),
+		isActive	: false,
+
+		modal: function(state) {
+			if ( state === "trailer-open" ) {
+				anime({
+					targets : this.wrap,
+					opacity : 1,
+					duration : 1000,
+					easing : 'linear',
+					begin : () => {
+						this.wrap.classList.remove('hide');
+
+						//	init trailer url
+						this.iframe.src = this.iframe.dataset.src;
+						
+						//	set active
+						this.isActive = true;
+					}
+				});
+
+			} else if ( state === "trailer-close" ) {
+				anime({
+					targets : this.wrap,
+					opacity : 0,
+					duration : 750,
+					easing : 'linear',
+					complete : () => {
+						this.wrap.classList.add('hide');
+
+						//	reset trailer url
+						this.iframe.src = "";
+
+						//	set active
+						this.isActive = true;
+					}
+				});
+			}
+		}
+	};
+
+
 	
 
 
@@ -412,6 +448,17 @@ window.isMobile = {
 			header.animate_burger(false);
 		}
 
+		//	trailer modal
+		if ( trailer.wrap && ( e.target.dataset.action || e.target.rel === "trailer-open" || e.target.hash === "#play-trailer") ) {
+			e.preventDefault();
+
+			let d = undefined;
+				if (e.target.hash) d = "trailer-open";
+				if ( d === undefined ) d = e.target.dataset.action ? e.target.dataset.action : e.target.rel;
+				 
+			trailer.modal(d);
+		}
+
 	});
 
 	window.addEventListener('scroll', function(e) {
@@ -422,6 +469,11 @@ window.isMobile = {
 	window.addEventListener('resize', function(e) {
 		//	set height of sliding hero 
 		if ( sliding_hero.wrap ) sliding_hero.setHeight();
+	});
+
+	document.addEventListener('keyup', function(e) {
+		//	trailer - escape to close
+		if ( trailer.isActive && ( e.key === "Escape" || e.which === 27 ) ) trailer.modal( 'trailer-close' );
 	});
 	
 }();
