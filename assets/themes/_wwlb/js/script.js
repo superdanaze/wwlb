@@ -201,7 +201,7 @@ window.isMobile = {
 			});
 
 			this.home_blocks.forEach( b => {
-				let text = b.querySelector(".synopsis");
+				let text = b.querySelectorAll(".synopsis");
 				
 				//	blocks
 				frame.observe( b );
@@ -210,7 +210,7 @@ window.isMobile = {
 				accents.observe( b );
 
 				//	text
-				block_text.observe( text );
+				text.forEach( t => block_text.observe( t ) );
 			});
 		},
 
@@ -315,7 +315,7 @@ window.isMobile = {
 
 		execute: function() {
 			//	make sure sliding image(s) are targeting correct image
-			sliding_hero.set_active_img();
+			if ( sliding_hero.wrap ) sliding_hero.set_active_img();
 			
 		}
 	};
@@ -326,10 +326,14 @@ window.isMobile = {
 
 	let sliding_hero = {
 		wrap		: document.querySelector('.sliding-hero-wrap'),
-		img			: document.querySelector('.sliding-hero-wrap').querySelector('img'),
-		text		: document.querySelector('.sliding-text-wrap'),
+		// img			: document.querySelector('.sliding-hero-wrap').querySelector('img'),
+		// text		: document.querySelector('.sliding-text-wrap'),
 
 		init: function() {
+			//	define vars
+			this.img = this.wrap.querySelector('img');
+			this.text = document.querySelector('.sliding-text-wrap');
+
 			//	set the height of the wrapper
 			this.setHeight();
 		},
@@ -411,7 +415,7 @@ window.isMobile = {
 	});
 
 	window.addEventListener('scroll', function(e) {
-		sliding_hero.scroll_img(e);
+		if ( sliding_hero.wrap ) sliding_hero.scroll_img(e);
 	});
 
 

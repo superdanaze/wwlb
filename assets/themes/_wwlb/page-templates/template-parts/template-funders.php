@@ -44,12 +44,14 @@
     );
 
         //  title
+        $support = '<h2 class="wwlb-title text_center off_white nomargin eng">WITH SUPPORT FROM</h2>';
+        $support .= '<h2 class="wwlb-title text_center off_white nomargin esp">CON EL APOYO DE</h2>';
         genesis_markup(
             [
                 'open'		=> '<div %s>',
                 'context'	=> NEW_CLIENT . '_funders_title',
                 'atts'		=> [ 'class' => "funders-title full__container B_md rel" ],
-                'content'   => '<h2 class="wwlb-title text_center off_white nomargin">WITH SUPPORT FROM</h2>',
+                'content'   => $support,
                 'close'		=> '</div>'
             ]
         );

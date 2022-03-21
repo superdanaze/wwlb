@@ -6,7 +6,8 @@
 	$funcs = new ELA_funcs;
     $signup_message_en = get_field( 'signup_form_message_english', 'options' );
     $signup_message_es = get_field( 'signup_form_message_spanish', 'options' );
-    $signup = get_field( 'footer_email_signup_shortcode', 'options' );
+    $signup_en = get_field( 'footer_email_signup_shortcode', 'options' );
+    $signup_es = get_field( 'footer_email_signup_shortcode_es', 'options' );
     $add_text = get_field( 'footer_add_text', 'options' );
 	$funders_logos = get_field( 'funders_logos', 'options' );
 	$credits = get_field( 'credit_block', 'options' );
@@ -45,12 +46,25 @@
 
 					//	signup message
 					print '<div class="footer-signupmsg text_left">';
-						if ( $signup_message_en ) printf( '<h6 class="off_white eng">%s</h6>', $signup_message_en );
-						if ( $signup_message_es ) printf( '<h6 class="off_white esp">%s</h6>', $signup_message_es );
+						if ( $signup_message_en && $signup_message_es ) {
+							printf( '<h6 class="off_white eng">%s</h6>', $signup_message_en );
+							printf( '<h6 class="off_white esp">%s</h6>', $signup_message_es );
+						} else if ( $signup_message_en && !$signup_message_es ) {
+							printf( '<h6 class="off_white">%s</h6>', $signup_message_en );
+						} else if ( !$signup_message_en && $signup_message_es ) {
+							printf( '<h6 class="off_white">%s</h6>', $signup_message_es );
+						}
 					print '</div>';
 
 					//	newsletter signup shortcode
-					if ( $signup ) printf( '<div class="footer-signup">%s</div>', do_shortcode($signup) );
+					if ( $signup_en && $signup_es ) {
+						printf( '<div class="footer-signup eng">%s</div>', do_shortcode($signup_en) );
+						printf( '<div class="footer-signup esp">%s</div>', do_shortcode($signup_es) );
+					} else if ( $signup_en && !$signup_es ) {
+						printf( '<div class="footer-signup">%s</div>', do_shortcode($signup_en) );
+					} else if ( !$signup_en && $signup_es ) {
+						printf( '<div class="footer-signup">%s</div>', do_shortcode($signup_es) );
+					}
 
 				print '</div>';
 

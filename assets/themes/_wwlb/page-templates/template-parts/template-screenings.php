@@ -77,7 +77,8 @@
 
     foreach( $upcoming_screenings as $key => $screening ) {
         $id = $screening->ID;
-        $title = $screening->post_title;
+        $title_en = $screening->post_title;
+        $title_es = get_field( 'screening_title_spanish', $id );
         $start_date = get_field( 'start_date', $id );
         $end_date = get_field( 'end_date', $id );
         $time = get_field( 'time', $id );
@@ -88,6 +89,16 @@
 
         //  if limit to # of screenings
         if ( $args['limit'] !== null && $key < ( count($upcoming_screenings) - intval($args['limit']) ) ) continue;
+
+        //  determine title output
+        if ( $title_en && $title_es ) {
+            $title = sprintf( '<span class="eng">%s</span>', trim( $title_en ) );
+            $title .= sprintf( '<span class="esp">%s</span>', trim( $title_es ) );
+        } else if ( $title_en && !$title_es) {
+            $title = $title_en;
+        } else if ( $title_es && !$title_en ) {
+            $title = $title_es;
+        }
 
         //  determine date output
         if ( $start_date && !$end_date ) {
