@@ -52,41 +52,36 @@
                     $id = $p->ID;
                     $title_en = trim($p->post_title);
                     $title_es = trim(get_field( 'article_title_spanish', $id ));
-                    $excerpt_en = trim(get_field( 'excerpt_english', $id ));
-                    $excerpt_es = trim(get_field( 'excerpt_spanish', $id ));
+                    $date = trim(get_field( 'date_of_article', $id ));
                     $publication = trim(get_field( 'publication', $id ));
                     $link = trim( get_field( 'link_to_article', $id ) );
                     $img = get_the_post_thumbnail_url( $id, "medium-large" );
 
                     $bg = $img ? $img : $root . $fallbacks[mt_rand(0, count($fallbacks) - 1)] . '.jpg';
 
-                    printf( '<article class="press-item background center" data-itemno="%s" style="background:url(%s)"', $key, $bg );
+                    printf( '<article class="press-item flex noover rel" data-itemno="%s">', $key );
 
-                        if ( $link ) printf( '<a class="press-item-link noover rel" href="%s" target="_blank" rel="nofollow">', $link );
+                        //  link
+                        if ( $link ) printf( '<a class="press-item-link full__container full__height flex noover rel" href="%s" target="_blank" rel="nofollow">', $link );
 
-                            print '<div class="press-item-inner A_xsm">';
+                            //  background
+                            printf( '<div class="press-item-bg full__container full__height background center abs topleft z0 easy_does_it" style="background:url(%s)"></div>', $bg );
+
+                            //  inner wrap
+                            print '<div class="press-item-inner A_xsm rel z1 easy_does_it">';
+
+                                //  date
+                                printf( '<p class="date off_white nomargin">%s</p>', $date );
 
                                 //  title
-                                print '<h5 class="off_white nomargin">';
+                                print '<h6 class="off_white nomargin">';
                                     if ( $title_en && $title_es ) {
                                         printf( '<span class="eng">%s</span>', $title_en );
                                         printf( '<span class="esp">%s</span>', $title_es );
                                     } else if ( $title_en && !$title_es ) {
                                         print $title_en;
                                     }
-                                print '</h5>';
-
-                                //  excerpt
-                                print '<p class="off_white nomargin">';
-                                    if ( $excerpt_en && $excerpt_es ) {
-                                        printf( '<span class="eng">%s</span>', $excerpt_en );
-                                        printf( '<span class="esp">%s</span>', $excerpt_es );
-                                    } else if ( $excerpt_en && !$excerpt_es ) {
-                                        print $excerpt_en;
-                                    } else if ( !$excerpt_en && $excerpt_es ) {
-                                        print $excerpt_es;
-                                    }
-                                print '</p>';
+                                print '</h6>';
 
                                 //  publication
                                 if ( $publication ) {

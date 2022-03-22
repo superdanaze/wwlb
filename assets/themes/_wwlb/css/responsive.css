@@ -16,6 +16,14 @@
     }
 
 
+    /*  TEMPLATE PART : PRESS
+    =========================================== */
+
+    .b-press-wrap {
+        grid-template-columns: 1fr;
+    }
+
+
     /*  FOOTER
     =========================================== */
 
@@ -47,6 +55,17 @@
             / 260px 1fr;
     }
 
+
+    /*  TEMPLATE PART : PRESS
+    =========================================== */
+
+    .b-press-wrap[data-cols="2"],
+    .b-press-wrap[data-cols="3"],
+    .b-press-wrap[data-cols="4"],
+    .b-press-wrap[data-cols="5"] {
+        grid-template-columns: 1fr 1fr;
+    }
+
 }
 
 
@@ -62,8 +81,6 @@
         grid-template-columns: 2fr 2fr 3fr 200px;
     }
     
-    
-
 
     /*  SCREENINGS
     =========================================== */
@@ -73,6 +90,27 @@
             "date title location" auto
             / 260px 2fr 1fr;
         grid-column-gap: 25px;
+    }
+
+
+    /*  TEMPLATE PART : PRESS
+    =========================================== */
+
+    .b-press-wrap[data-cols="3"],
+    .b-press-wrap[data-cols="4"],
+    .b-press-wrap[data-cols="5"] {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    
+    /*  TEMPLATE PART : QUOTES
+    =========================================== */
+
+    .b-quotes-wrap h6.smaller {
+        font-size: 18px;
+    }
+    .b-quotes-wrap h6.larger {
+        font-size: 23.5px;
     }
 
 
@@ -107,12 +145,27 @@
     header.site-header {
         padding-top:15px;
     }
+
+    /*  TEMPLATE PART : PRESS
+    =========================================== */
+
+    .b-press-wrap[data-cols="4"],
+    .b-press-wrap[data-cols="5"] {
+        grid-template-columns: repeat(4, 1fr);
+    }
     
 }
 
 
 
 @media screen and ( min-width: 1200px ) {
+
+    /*  TEMPLATE PART : PRESS
+    =========================================== */
+
+    .b-press-wrap[data-cols="5"] {
+        grid-template-columns: repeat(5, 1fr);
+    }
 
 }
 
@@ -171,6 +224,14 @@
 
     .wwlb-mc-form input[type="submit"] {
         padding:15px 75px;
+    }
+
+
+    /*  TEMPLATE PART : QUOTES
+    =========================================== */
+
+    .b-quotes-wrap h6 {
+        font-size: 18px;
     }
 
     

@@ -471,6 +471,7 @@ class ELA_Mods {
 
 		add_action( 'init', array( $this, 'screenings_custom_post_type' ) );
 		add_action( 'init', array( $this, 'press_custom_post_type' ) );
+		add_action( 'init', array( $this, 'quotes_custom_post_type' ) );
 	}
 
 
@@ -703,6 +704,47 @@ class ELA_Mods {
 
 		register_post_type( 'press', $args );
 	}
+
+
+	public function quotes_custom_post_type() {
+		$labels = array(
+			'name'                => __( 'Quote' ),
+			'singular_name'       => __( 'Quote' ),
+			'menu_name'           => __( 'Quotes' ),
+			'parent_item_colon'   => __( 'Parent Quote' ),
+			'all_items'           => __( 'All Quotes' ),
+			'view_item'           => __( 'View Quote' ),
+			'add_new_item'        => __( 'Add New Quote' ),
+			'add_new'             => __( 'Add New Quote' ),
+			'edit_item'           => __( 'Edit Quote' ),
+			'update_item'         => __( 'Update Quote' ),
+			'search_items'        => __( 'Search Quotes' ),
+			'not_found'           => __( 'Not Found' ),
+			'not_found_in_trash'  => __( 'Not found in Trash' )
+		);
+		$args = array(
+			'label'               => __( 'quote' ),
+			'description'         => __( get_bloginfo('title') . ' Quotes' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'thumbnail', 'revisions', 'custom-fields'),
+			'public'              => true,
+			'hierarchical'        => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'has_archive'         => true,
+			'menu_icon'			  => 'dashicons-format-quote',
+			'can_export'          => true,
+			'exclude_from_search' => false,
+				'yarpp_support'       => true,
+			'taxonomies' 	      => array('post_tag'),
+			'publicly_queryable'  => true,
+			'capability_type'     => 'page'
+		);
+
+		register_post_type( 'quote', $args );
+	}
 	
 }
 
@@ -904,6 +946,7 @@ class ELA_Shortcodes {
 		add_shortcode('wwlb_fade', array( $this, 'fade_spans' ) );
 		add_shortcode( 'SCREENINGS', array( $this, 'print_screenings' ) );
 		add_shortcode( 'PRESS', array( $this, 'press_articles' ) );
+		add_shortcode( 'QUOTES', array( $this, 'print_quotes' ) );
 	}
 
 
@@ -930,6 +973,15 @@ class ELA_Shortcodes {
 		), $atts));
 
 		return get_template_part( E_TEMPLATES, 'press', array( "columns" => $columns, "limit" => $limit ) );
+	}
+	
+	public function print_quotes($atts) {
+		extract(shortcode_atts(array(
+			'columns'		=> 3,
+			'limit'			=> -1
+		), $atts));
+
+		return get_template_part( E_TEMPLATES, 'quotes', array( "columns" => $columns, "limit" => $limit ) );
 	}
 }
 
