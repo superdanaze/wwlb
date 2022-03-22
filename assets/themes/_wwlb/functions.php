@@ -470,6 +470,7 @@ class ELA_Mods {
 		add_filter( 'genesis_after_footer', array( $this, 'trailer' ) );
 
 		add_action( 'init', array( $this, 'screenings_custom_post_type' ) );
+		add_action( 'init', array( $this, 'press_custom_post_type' ) );
 	}
 
 
@@ -660,6 +661,47 @@ class ELA_Mods {
 		);
 
 		register_post_type( 'screenings', $args );
+	}
+
+
+	public function press_custom_post_type() {
+		$labels = array(
+			'name'                => __( 'Press' ),
+			'singular_name'       => __( 'Press' ),
+			'menu_name'           => __( 'Press' ),
+			'parent_item_colon'   => __( 'Parent Press' ),
+			'all_items'           => __( 'All Press' ),
+			'view_item'           => __( 'View Press' ),
+			'add_new_item'        => __( 'Add New Press' ),
+			'add_new'             => __( 'Add New Press' ),
+			'edit_item'           => __( 'Edit Press' ),
+			'update_item'         => __( 'Update Press' ),
+			'search_items'        => __( 'Search Press' ),
+			'not_found'           => __( 'Not Found' ),
+			'not_found_in_trash'  => __( 'Not found in Trash' )
+		);
+		$args = array(
+			'label'               => __( 'press' ),
+			'description'         => __( get_bloginfo('title') . ' Press' ),
+			'labels'              => $labels,
+			'supports'            => array( 'title', 'thumbnail', 'revisions', 'custom-fields'),
+			'public'              => true,
+			'hierarchical'        => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'has_archive'         => true,
+			'menu_icon'			  => 'dashicons-welcome-write-blog',
+			'can_export'          => true,
+			'exclude_from_search' => false,
+				'yarpp_support'       => true,
+			'taxonomies' 	      => array('post_tag'),
+			'publicly_queryable'  => true,
+			'capability_type'     => 'page'
+		);
+
+		register_post_type( 'press', $args );
 	}
 	
 }
@@ -861,6 +903,7 @@ class ELA_Shortcodes {
 	public function __construct() {
 		add_shortcode('wwlb_fade', array( $this, 'fade_spans' ) );
 		add_shortcode( 'SCREENINGS', array( $this, 'print_screenings' ) );
+		add_shortcode( 'PRESS', array( $this, 'press_articles' ) );
 	}
 
 
@@ -877,6 +920,16 @@ class ELA_Shortcodes {
 	  ), $atts));
 
 	  return get_template_part( E_TEMPLATES, 'screenings', array( "limit" => $limit, "text" => $text, "message" => $message ) );
+	}
+
+
+	public function press_articles($atts) {
+		extract(shortcode_atts(array(
+			'columns'		=> 3,
+			'limit'			=> -1
+		), $atts));
+
+		return get_template_part( E_TEMPLATES, 'press', array( "columns" => $columns, "limit" => $limit ) );
 	}
 }
 
