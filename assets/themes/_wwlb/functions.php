@@ -963,10 +963,11 @@ class ELA_Shortcodes {
 		extract(shortcode_atts(array(
 			'limit'			=> null,
 			'text'			=> "dark",
+			'show'			=> 'upcoming',	//	other option: all
 			'message'		=> "No upcoming screenings currently scheduled. Please check back soon."
 	  ), $atts));
 
-	  return get_template_part( E_TEMPLATES, 'screenings', array( "limit" => $limit, "text" => $text, "message" => $message ) );
+	  return get_template_part( E_TEMPLATES, 'screenings', array( "limit" => $limit, "text" => $text, "show" => $show, "message" => $message ) );
 	}
 
 
@@ -1005,7 +1006,7 @@ class ELA_Elements {
 
 	public static function vimeoVideo( $id, $cls = false, $modal = false, $poster = false ) {
 		if ( $modal ) {
-			$v = '<iframe class="full__container rel '. $cls .'" data-src="https://player.vimeo.com/video/'. $id .'?autoplay=1&loop=1&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+			$v = '<iframe class="full__container rel '. $cls .'" data-src="https://player.vimeo.com/video/'. $id .'&autoplay=1&loop=1&muted=0&byline=0&portrait=0&title=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		} else {
 			$v = '<iframe class="full__container rel '. $cls .'" src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		}

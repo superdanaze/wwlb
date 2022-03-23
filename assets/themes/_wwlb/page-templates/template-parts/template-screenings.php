@@ -87,6 +87,11 @@
         $link = trim( get_field( 'link', $id ) );
         $date = ""; $datetime = ""; $output = "";
 
+        //  only show upcoming screenings
+        if ( $args['show'] === "upcoming" ) {
+            if ( (($start_date && !$end_date) && $start_date <= date("m/d/Y")) || ($end_date && ($end_date <= date("m/d/Y"))) ) continue;
+        }
+
         //  if limit to # of screenings
         if ( $args['limit'] !== null && $key < ( count($upcoming_screenings) - intval($args['limit']) ) ) continue;
 
