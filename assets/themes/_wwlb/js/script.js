@@ -252,7 +252,7 @@ window.isMobile = {
 				this.activate(e);
 
 				//	execute language dependent actions
-				this.execute();
+				// this.execute();
 			});
 
 			//	reset click & button for mobile
@@ -389,7 +389,7 @@ window.isMobile = {
 	};
 
 	//	init sliding hero items
-	if ( sliding_hero.wrap ) sliding_hero.init();
+	// if ( sliding_hero.wrap ) sliding_hero.init();
 
 
 	let trailer = {
@@ -461,15 +461,15 @@ window.isMobile = {
 
 	});
 
-	window.addEventListener('scroll', function(e) {
-		if ( sliding_hero.wrap ) sliding_hero.scroll_img(e);
-	});
+	// window.addEventListener('scroll', function(e) {
+	// 	if ( sliding_hero.wrap ) sliding_hero.scroll_img(e);
+	// });
 
 
-	window.addEventListener('resize', function(e) {
-		//	set height of sliding hero 
-		if ( sliding_hero.wrap ) sliding_hero.setHeight();
-	});
+	// window.addEventListener('resize', function(e) {
+	// 	//	set height of sliding hero 
+	// 	if ( sliding_hero.wrap ) sliding_hero.setHeight();
+	// });
 
 	document.addEventListener('keyup', function(e) {
 		//	trailer - escape to close

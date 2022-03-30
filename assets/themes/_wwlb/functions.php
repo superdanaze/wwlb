@@ -462,6 +462,9 @@ class ELA_Mods {
 		add_action( 'wp_head', array( $this, 'add_to_header' ), 2 );
 		add_filter( 'body_class', array( $this, 'add_to_body_class' ) );
 
+		add_filter( 'attachment_fields_to_edit', array( $this, 'add_image_attachment_fields' ), null, 2);
+		add_filter( 'attachment_fields_to_save', array( $this, 'save_image_attachment_fields' ), null, 3);
+
 		add_filter( 'genesis_footer', array( $this, 'footer' ), 5 );
 		add_filter( 'genesis_after_footer', array( $this, 'language_select' ) );
 		add_filter( 'genesis_after_footer', array( $this, 'trailer' ) );
@@ -498,6 +501,34 @@ class ELA_Mods {
 		$classes[] = "lang-en";
 
 		return $classes;
+	}
+
+
+	public function add_image_attachment_fields($form_fields, $post) {
+		$form_fields["height_override"] = array(
+			"label" => __("Logo Height Override"),
+			"input" => "text",
+			"value" => get_post_meta($post->ID, "height_override", true)
+		);
+		$form_fields["height_override_mobile"] = array(
+			"label" => __("Logo Height Override - Mobile"),
+			"input" => "text",
+			"value" => get_post_meta($post->ID, "height_override_mobile", true)
+		);
+		 
+		return $form_fields;
+	}
+
+
+	public function save_image_attachment_fields($post, $attachment) {
+		if ( isset($attachment['height_override']) ){
+			update_post_meta($post['ID'], 'height_override', trim( $attachment['height_override']) );
+		}
+
+		if ( isset($attachment['height_override_mobile']) ){
+			update_post_meta($post['ID'], 'height_override_mobile', trim( $attachment['height_override_mobile'] ) );
+		}
+		return $post;
 	}
 
 
