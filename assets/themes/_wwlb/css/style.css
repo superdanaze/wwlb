@@ -509,7 +509,7 @@ footer .wwlb-mc-form input[type="submit"]:active {
 
 a.b-screening-item-wrap,
 a.b-screening-item-wrap p {
-    color:var(--alert);
+    color:var(--text);
 }
 a.b-screening-item-wrap:after {
     width:100%;
