@@ -81,11 +81,17 @@
         $title_es = get_field( 'screening_title_spanish', $id );
         $start_date = get_field( 'start_date', $id );
         $end_date = get_field( 'end_date', $id );
-        $time = get_field( 'time', $id );
+        $time = str_replace(" ", "", get_field( 'time', $id ));
+        $timezone = get_field( 'time_zone', $id );
         $location = trim( esc_html( get_field( 'location_name', $id ) ) );
         $forum = get_field( 'online_or_in_person', $id );
         $link = trim( get_field( 'link', $id ) );
         $date = ""; $datetime = ""; $output = "";
+
+        //  only show upcoming screenings
+        if ( $args['show'] === "upcoming" ) {
+            if ( (($start_date && !$end_date) && $start_date <= date("m/d/Y")) || ($end_date && ($end_date <= date("m/d/Y"))) ) continue;
+        }
 
         //  if limit to # of screenings
         if ( $args['limit'] !== null && $key < ( count($upcoming_screenings) - intval($args['limit']) ) ) continue;
@@ -117,6 +123,9 @@
         } else if ( !$date && $time ) {
             $datetime = $time;
         }
+
+        //  timezone
+        if ( $time && $timezone ) $datetime = $datetime . " " . trim( $timezone );
 
         //  set empty value for empty location
         if ( !$location ) $location = "";

@@ -243,16 +243,22 @@ window.isMobile = {
 
 
 	let lang_select = {
-		selector		: document.querySelector('.lang-select'),
+		selector		: document.querySelector('.lang-select-main'),
 		_click			: 0,
 
 		init: function() {
-			this.selector.addEventListener('click', (e) => {
-				//	activate language
-				this.activate(e);
+			// this.selector.addEventListener('click', (e) => {
+			// 	//	activate language
+			// 	this.activate(e);
 
-				//	execute language dependent actions
-				this.execute();
+			// 	//	execute language dependent actions
+			// 	// this.execute();
+			// });
+
+			document.addEventListener('click', (e) => {
+				if ( e.target.classList.contains('lang-select') ) {
+					this.activate(e);
+				}
 			});
 
 			//	reset click & button for mobile
@@ -389,7 +395,7 @@ window.isMobile = {
 	};
 
 	//	init sliding hero items
-	if ( sliding_hero.wrap ) sliding_hero.init();
+	// if ( sliding_hero.wrap ) sliding_hero.init();
 
 
 	let trailer = {
@@ -461,15 +467,15 @@ window.isMobile = {
 
 	});
 
-	window.addEventListener('scroll', function(e) {
-		if ( sliding_hero.wrap ) sliding_hero.scroll_img(e);
-	});
+	// window.addEventListener('scroll', function(e) {
+	// 	if ( sliding_hero.wrap ) sliding_hero.scroll_img(e);
+	// });
 
 
-	window.addEventListener('resize', function(e) {
-		//	set height of sliding hero 
-		if ( sliding_hero.wrap ) sliding_hero.setHeight();
-	});
+	// window.addEventListener('resize', function(e) {
+	// 	//	set height of sliding hero 
+	// 	if ( sliding_hero.wrap ) sliding_hero.setHeight();
+	// });
 
 	document.addEventListener('keyup', function(e) {
 		//	trailer - escape to close
