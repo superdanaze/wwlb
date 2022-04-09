@@ -66,8 +66,35 @@
         );
 
             foreach( $logos as $key => $logo ) {
+                $height = get_post_meta( $logo['id'], "height_override", true );
+                $mheight = get_post_meta( $logo['id'], "height_override_mobile", true );
+                $_css = "";
+
+                //  style override
+                if ( $mheight ) {
+                    $_css .= '
+                        @media screen and ( max-width: 767px ) {
+                            figure.funder-logo-wrap #funder-logo-'. $key .' {
+                                height:'. $mheight .'px;
+                            }
+                        }
+                    ';
+                }
+                if ( $height ) {
+                    $_css .= '
+                        @media screen and ( min-width: 768px ) {
+                            figure.funder-logo-wrap #funder-logo-'. $key .' {
+                                height:'. $height .'px;
+                            }
+                        }
+                    ';
+                }
+
+                $func->aggregate_css( NEW_CLIENT . '-footer', $_css );
+
+
                 print '<figure class="funder-logo-wrap">';
-                    print wp_get_attachment_image( $logo['id'], 'large', false, array( 'alt' => $logo['alt'] ?? $logo['title'] ) );
+                    print wp_get_attachment_image( $logo['id'], 'large', false, array( 'id' => 'funder-logo-' . $key, 'alt' => $logo['alt'] ?? $logo['title'] ) );
                 print '</figure>';
             }
 

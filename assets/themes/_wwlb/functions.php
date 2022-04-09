@@ -1067,7 +1067,6 @@ class ELA_Elements {
 		} else {
 			$v = '<iframe class="full__container rel '. $cls .'" src="https://player.vimeo.com/video/'. $id .'?autoplay=0&loop=0&muted=0&byline=0&portrait=0&title=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		}
-		
 
 		return $v;
 	}
@@ -1078,7 +1077,6 @@ class ELA_Elements {
 		} else {
 			$y = '<iframe class="full__container rel '. $cls .'" src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=0&loop=0&modestbranding=0&iv_load_policy=3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		}
-		
 
 		return $y;
 	}
