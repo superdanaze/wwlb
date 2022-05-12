@@ -462,6 +462,8 @@ class ELA_Mods {
 		add_action( 'wp_head', array( $this, 'add_to_header' ), 2 );
 		add_filter( 'body_class', array( $this, 'add_to_body_class' ) );
 
+		add_filter( 'genesis_header', array( $this, 'add_language_select_to_nav' ), 11 );
+
 		add_filter( 'attachment_fields_to_edit', array( $this, 'add_image_attachment_fields' ), null, 2);
 		add_filter( 'attachment_fields_to_save', array( $this, 'save_image_attachment_fields' ), null, 3);
 
@@ -501,6 +503,30 @@ class ELA_Mods {
 		$classes[] = "lang-en";
 
 		return $classes;
+	}
+
+
+	public function add_language_select_to_nav() {
+		$output = genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> 'language_select_nav_inner',
+				'atts'		=> [ 'class' => "lang-select-nav-inner flex horiz T_micro B_micro L_xsm" ],
+				'content'	=> '<p class="nomargin white"><span class="_eng easy_does_it rel">EN</span> / <span class="_esp easy_does_it rel">ES</span></p>',
+				'echo'		=> false,
+				'close'		=> '</div>',
+			]
+		);
+
+		genesis_markup(
+			[
+				'open'		=> '<div %s>',
+				'context'	=> 'language_select_nav',
+				'atts'		=> [ 'class' => "lang-select-nav lang-select flex vert rel right L_xsm echo" ],
+				'content'	=> $output,
+				'close'		=> '</div>',
+			]
+		);
 	}
 
 
@@ -628,7 +654,7 @@ class ELA_Mods {
 			[
 				'open'		=> '<div %s>',
 				'context'	=> 'language_select_master',
-				'atts'		=> [ 'class' => "lang-select fixed flex vert z100 easy_does_it" ],
+				'atts'		=> [ 'class' => "lang-select-main lang-select fixed flex vert z100 easy_does_it" ],
 				'content'	=> $output,
 				'close'		=> '</div>',
 			]
@@ -1051,7 +1077,7 @@ class ELA_Elements {
 		} else {
 			$y = '<iframe class="full__container rel '. $cls .'" src="https://www.youtube.com/embed/'. $id .'?controls=1&showinfo=0&rel=0&autoplay=0&loop=0&modestbranding=0&iv_load_policy=3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		}
-		
+
 		return $y;
 	}
 

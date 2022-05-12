@@ -199,7 +199,53 @@ footer {
 /*  LANGUAGE SELECT / CHANGE
 =========================================== */
 
-.lang-select {
+/*  navigation  */
+
+.lang-select-nav {
+    height: 69px;
+    cursor: pointer;
+}
+.lang-select-nav * {
+    pointer-events: none;
+}
+.lang-select-nav-inner {
+    border-left: 1px solid #fff;
+}
+.lang-select-nav-inner span:before {
+    background-color: #fff;
+    width:26px;
+    height:26px;
+    top:-7px;
+    left:-2px;
+    content:"";
+    display: block;
+    border-radius: 50%;
+    z-index: -1;
+    -webkit-transform:scale(0);
+    transform:scale(0);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transition: 0.15s all ease;
+    transition: 0.15s all ease;
+    position: absolute;
+}
+body.lang-en .lang-select-nav:hover span._eng:before,
+body.lang-es .lang-select-nav:hover span._esp:before {
+    transform: scale(0.9);
+}
+body.lang-en .lang-select-nav-inner span._eng,
+body.lang-es .lang-select-nav-inner span._esp {
+    color:#111;
+}
+body.lang-en .lang-select-nav-inner span._eng:before,
+body.lang-es .lang-select-nav-inner span._esp:before {
+    -webkit-transform:scale(1);
+    transform:scale(1);
+}
+
+/*  page bottom  */
+
+.lang-select-main {
     background: -moz-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
     background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(0,0,0,0.92)), color-stop(29%, rgba(19,22,38,0.9)), color-stop(61%, rgba(34,23,2,0.88)), color-stop(92%, rgba(0,0,0,0.86)), color-stop(100%, rgba(0,0,0,0.85)));
     background: -webkit-linear-gradient(-45deg, rgba(0,0,0,0.92) 0%, rgba(19,22,38,0.9) 29%, rgba(34,23,2,0.88) 61%, rgba(0,0,0,0.86) 92%, rgba(0,0,0,0.85) 100%);
@@ -217,11 +263,11 @@ footer {
     animation:fade-in-half 1s ease-in-out 3s forwards;
     padding: 15px;
 }
-.ismobile .lang-select.active, 
-.lang-select:hover {
+.ismobile .lang-select-main.active, 
+.lang-select-main:hover {
     opacity: 1 !important;
 }
-.lang-select svg path {
+.lang-select-main svg path {
     fill:#fff;
 }
 .lang-select-msg {
@@ -230,8 +276,8 @@ footer {
     -webkit-transition:0s all ease;
     transition:0s all ease;
 }
-.ismobile .lang-select.active .lang-select-msg,
-.lang-select:hover .lang-select-msg {
+.ismobile .lang-select-main.active .lang-select-msg,
+.lang-select-main:hover .lang-select-msg {
     width: auto;
     opacity: 1;
     -webkit-transition:0.45s all ease-in-out;
