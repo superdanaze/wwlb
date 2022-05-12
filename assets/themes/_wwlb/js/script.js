@@ -243,16 +243,28 @@ window.isMobile = {
 
 
 	let lang_select = {
-		selector		: document.querySelector('.lang-select'),
+		selector		: document.querySelector('.lang-select-main'),
+		cookiename		: "wwlb_lang_select",
+		cookietime		: 86400,
 		_click			: 0,
 
 		init: function() {
-			this.selector.addEventListener('click', (e) => {
-				//	activate language
-				this.activate(e);
+			// this.selector.addEventListener('click', (e) => {
+			// 	//	activate language
+			// 	this.activate(e);
 
-				//	execute language dependent actions
-				// this.execute();
+			// 	//	execute language dependent actions
+			// 	// this.execute();
+			// });
+
+			//	get language cookie, set language
+			console.log(this.get_cookie(this.cookiename));
+			if ( this.get_cookie(this.cookiename) ) this.set_lang();
+
+			document.addEventListener('click', (e) => {
+				if ( e.target.classList.contains('lang-select') ) {
+					this.activate(e);
+				}
 			});
 
 			//	reset click & button for mobile
@@ -263,6 +275,37 @@ window.isMobile = {
 						this.selector.classList.remove('active');
 					}
 				});
+			}
+		},
+
+		get_cookie: function( cname ) {
+			let ca = document.cookie.split(';');
+			for( let i = 0; i < ca.length; i++ ) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1);
+
+				if (c.indexOf(cname) == 0) return c.substring(cname.length, c.length);
+			}
+
+			return "";
+		},
+
+		set_cookie: function( cname, cvalue, time ) {
+			let d = new Date();
+			d.setTime(d.getTime() + (time * 1000));
+			let expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		},
+
+		set_lang: function() {
+			let c = this.get_cookie(this.cookiename);
+			let body = document.body.classList;
+
+			if ( c === "=esp" ) {
+				//	body attr
+				body.remove('lang-en');
+				body.add('lang-es');
+				document.body.dataset.lang = 'esp';
 			}
 		},
 
@@ -279,11 +322,18 @@ window.isMobile = {
 						body.add('lang-es');
 
 						document.body.dataset.lang = 'esp';
+
+						//	set cookie
+						this.set_cookie( this.cookiename, "esp", this.cookietime );
+
 					} else if ( body.contains('lang-es') ) {
 						body.remove('lang-es');
 						body.add('lang-en');
 
 						document.body.dataset.lang = 'eng';
+
+						//	set cookie
+						this.set_cookie( this.cookiename, "eng", this.cookietime );
 					}
 
 					// //	reset click & button
@@ -296,11 +346,18 @@ window.isMobile = {
 					body.add('lang-es');
 
 					document.body.dataset.lang = 'esp';
+
+					//	set cookie
+					this.set_cookie( this.cookiename, "esp", this.cookietime );
+
 				} else if ( body.contains('lang-es') ) {
 					body.remove('lang-es');
 					body.add('lang-en');
 
 					document.body.dataset.lang = 'eng';
+
+					//	set cookie
+					this.set_cookie( this.cookiename, "eng", this.cookietime );
 				}
 			}
 		},
