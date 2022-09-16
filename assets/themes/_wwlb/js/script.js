@@ -258,7 +258,6 @@ window.isMobile = {
 			// });
 
 			//	get language cookie, set language
-			console.log(this.get_cookie(this.cookiename));
 			if ( this.get_cookie(this.cookiename) ) this.set_lang();
 
 			document.addEventListener('click', (e) => {
